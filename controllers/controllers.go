@@ -69,3 +69,7 @@ func EditaAluno(c *gin.Context) {
 	database.DB.Model(&aluno).UpdateColumns(aluno)
 	c.JSON(http.StatusOK, aluno)
 }
+
+func BuscaAlunoPorCPF(c *gin.Context) {
+
+}
