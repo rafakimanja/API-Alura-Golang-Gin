@@ -8,20 +8,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func Saudacao(c *gin.Context) {
 
-func ExibeTodosAlunos(c *gin.Context){
-	c.JSON(200, models.Alunos)
-}
-
-func Saudacao(c *gin.Context){
 	nome := c.Params.ByName("nome")
-
 	c.JSON(200, gin.H{
-		"API diz:": "Qual vai ser "+ nome +" ???",
+		"API diz:": "Qual vai ser " + nome + " ???",
 	})
 }
 
-func CriaNovoAluno(c *gin.Context){
+func ExibeTodosAlunos(c *gin.Context) {
+
+	var alunos []models.Aluno
+	database.DB.Find(&alunos)
+	c.JSON(200, alunos)
+}
+
+func CriaNovoAluno(c *gin.Context) {
 
 	var aluno models.Aluno
 
@@ -30,5 +32,20 @@ func CriaNovoAluno(c *gin.Context){
 			"error": err.Error()})
 	}
 	database.DB.Create(&aluno)
+	c.JSON(http.StatusOK, aluno)
+}
+
+func BuscaAluno(c *gin.Context) {
+
+	var aluno models.Aluno
+	id := c.Params.ByName("id")
+	database.DB.First(&aluno, id)
+
+	if aluno.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Not found:": "aluno nao encontrado"})
+		return
+	}
+
 	c.JSON(http.StatusOK, aluno)
 }

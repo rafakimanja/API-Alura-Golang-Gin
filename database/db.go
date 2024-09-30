@@ -15,7 +15,7 @@ var (
 
 func ConectaComDB() *gorm.DB{
 	strConexao := "host=localhost user=postgres password=postgres dbname=api_golang_gin port=5432 sslmode=disable"
-	DB, err := gorm.Open(postgres.Open(strConexao))
+	DB, err = gorm.Open(postgres.Open(strConexao))
 	if err != nil{
 		log.Panic("Erro ao conectar com o banco de dados")
 	}
